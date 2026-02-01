@@ -26,6 +26,28 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Company name to ticker mapping for common companies
+COMPANY_TO_TICKER = {
+    'APPLE': 'AAPL', 'MICROSOFT': 'MSFT', 'GOOGLE': 'GOOGL', 'ALPHABET': 'GOOGL',
+    'AMAZON': 'AMZN', 'TESLA': 'TSLA', 'META': 'META', 'FACEBOOK': 'META',
+    'NVIDIA': 'NVDA', 'NETFLIX': 'NFLX', 'ADOBE': 'ADBE', 'SALESFORCE': 'CRM',
+    'INTEL': 'INTC', 'AMD': 'AMD', 'PAYPAL': 'PYPL', 'ZOOM': 'ZM',
+    'SPOTIFY': 'SPOT', 'UBER': 'UBER', 'LYFT': 'LYFT', 'AIRBNB': 'ABNB',
+    'COINBASE': 'COIN', 'ROBINHOOD': 'HOOD', 'PALANTIR': 'PLTR',
+    'SNOWFLAKE': 'SNOW', 'SHOPIFY': 'SHOP', 'SQUARE': 'SQ', 'BLOCK': 'SQ',
+    'TWITTER': 'TWTR', 'SNAP': 'SNAP', 'PINTEREST': 'PINS', 'ROBLOX': 'RBLX',
+    'DISNEY': 'DIS', 'NIKE': 'NKE', 'STARBUCKS': 'SBUX', 'MCDONALDS': 'MCD',
+    'WALMART': 'WMT', 'TARGET': 'TGT', 'COSTCO': 'COST', 'HOME DEPOT': 'HD',
+    'COCA COLA': 'KO', 'PEPSI': 'PEP', 'PEPSICO': 'PEP', 'JOHNSON': 'JNJ',
+    'PFIZER': 'PFE', 'MODERNA': 'MRNA', 'VISA': 'V', 'MASTERCARD': 'MA',
+    'JPMORGAN': 'JPM', 'BANK OF AMERICA': 'BAC', 'WELLS FARGO': 'WFC',
+    'GOLDMAN': 'GS', 'MORGAN STANLEY': 'MS', 'BLACKROCK': 'BLK',
+    'BERKSHIRE': 'BRK-B', 'EXXON': 'XOM', 'CHEVRON': 'CVX', 'SHELL': 'SHEL',
+    'BOEING': 'BA', 'LOCKHEED': 'LMT', 'RAYTHEON': 'RTX', 'GENERAL ELECTRIC': 'GE',
+    'FORD': 'F', 'GM': 'GM', 'GENERAL MOTORS': 'GM', 'SPDR': 'SPY', 'VOO': 'VOO',
+    'VANGUARD': 'VTI', 'INVESCO': 'QQQ', 'ISHARES': 'IVV'
+}
+
 # Clean, Modern Light Theme CSS
 st.markdown("""
 <style>
@@ -41,7 +63,6 @@ st.markdown("""
 
     #MainMenu, footer, header {visibility: hidden;}
 
-    /* Main Title - Extra Large */
     .main-title {
         font-size: 4.5rem;
         font-weight: 800;
@@ -67,7 +88,6 @@ st.markdown("""
         margin-bottom: 3rem;
     }
 
-    /* Metric Cards - Clean & Bold */
     .metric-card {
         background: #ffffff;
         padding: 35px;
@@ -127,7 +147,6 @@ st.markdown("""
         color: #dc2626;
     }
 
-    /* Company Name */
     .company-name {
         font-size: 2.5rem;
         font-weight: 800;
@@ -140,7 +159,6 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
     }
 
-    /* Text Input - Large & Clean */
     .stTextInput > div > div > input {
         background: #ffffff !important;
         border: 3px solid #e2e8f0 !important;
@@ -165,7 +183,6 @@ st.markdown("""
         letter-spacing: 1px !important;
     }
 
-    /* Tabs - Modern Pill Style */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
         background: #ffffff;
@@ -189,7 +206,6 @@ st.markdown("""
         color: white !important;
     }
 
-    /* Buttons - Bold & Vibrant */
     .stButton > button {
         background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
         color: white !important;
@@ -208,7 +224,6 @@ st.markdown("""
         box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
     }
 
-    /* File Uploader */
     .stFileUploader > div {
         background: #ffffff !important;
         border: 3px dashed #cbd5e1 !important;
@@ -216,7 +231,6 @@ st.markdown("""
         padding: 50px !important;
     }
 
-    /* DataFrames */
     .stDataFrame {
         background: #ffffff !important;
         border-radius: 20px !important;
@@ -224,7 +238,6 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
     }
 
-    /* Alerts */
     .stAlert {
         background: #ffffff !important;
         border: 1px solid #e2e8f0 !important;
@@ -233,7 +246,6 @@ st.markdown("""
         font-size: 1.1rem !important;
     }
 
-    /* Expander */
     .streamlit-expanderHeader {
         background: #ffffff !important;
         border-radius: 16px !important;
@@ -242,7 +254,6 @@ st.markdown("""
         color: #0f172a !important;
     }
 
-    /* Popular Tickers - Chips */
     .ticker-chip {
         background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
         border: 2px solid rgba(59, 130, 246, 0.2);
@@ -255,7 +266,6 @@ st.markdown("""
         letter-spacing: 2px;
     }
 
-    /* Footer */
     .footer {
         text-align: center;
         color: #94a3b8;
@@ -266,7 +276,6 @@ st.markdown("""
         font-weight: 500;
     }
 
-    /* Section Headers */
     .section-header {
         font-size: 2rem;
         font-weight: 800;
@@ -276,7 +285,6 @@ st.markdown("""
         border-bottom: 3px solid #e2e8f0;
     }
 
-    /* Download Button */
     .stDownloadButton > button {
         background: #ffffff !important;
         border: 3px solid #3b82f6 !important;
@@ -288,12 +296,10 @@ st.markdown("""
         background: rgba(59, 130, 246, 0.1) !important;
     }
 
-    /* Progress Bar */
     .stProgress > div > div {
         background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
     }
 
-    /* Text Area */
     .stTextArea > div > div > textarea {
         background: #ffffff !important;
         border: 2px solid #e2e8f0 !important;
@@ -303,7 +309,6 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* Metrics */
     [data-testid="stMetricValue"] {
         font-size: 1.8rem !important;
         font-weight: 800 !important;
@@ -316,7 +321,6 @@ st.markdown("""
         color: #64748b !important;
     }
 
-    /* Summary Cards */
     .summary-card {
         background: #ffffff;
         border: 1px solid #e2e8f0;
@@ -341,7 +345,6 @@ st.markdown("""
         margin-top: 10px;
     }
 
-    /* Upload Area */
     .upload-area {
         text-align: center;
         padding: 60px;
@@ -370,6 +373,39 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+def resolve_ticker(input_text):
+    """Convert company name to ticker symbol if needed"""
+    input_upper = input_text.upper().strip()
+
+    # Check if it's already a valid ticker (try to fetch)
+    if len(input_upper) <= 5 and input_upper.isalpha():
+        try:
+            stock = yf.Ticker(input_upper)
+            hist = stock.history(period="1d")
+            if not hist.empty:
+                return input_upper
+        except:
+            pass
+
+    # Check our mapping
+    if input_upper in COMPANY_TO_TICKER:
+        return COMPANY_TO_TICKER[input_upper]
+
+    # Try partial match
+    for company, ticker in COMPANY_TO_TICKER.items():
+        if company in input_upper or input_upper in company:
+            return ticker
+
+    # Try yfinance search as fallback
+    try:
+        search = yf.Ticker(input_upper)
+        if search.info and 'symbol' in search.info:
+            return search.info['symbol']
+    except:
+        pass
+
+    return input_upper
+
 def calculate_atr(df, period=14):
     high = df['High']
     low = df['Low']
@@ -380,6 +416,25 @@ def calculate_atr(df, period=14):
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
     atr = tr.rolling(window=period).mean()
     return atr
+
+def calculate_stop_loss(ma150, atr):
+    """
+    Calculate stop loss based on:
+    - Position around -1.5% of 150-day MA
+    - Adjusted for ATR to avoid unwanted executions
+    """
+    if pd.isna(ma150) or pd.isna(atr):
+        return None
+
+    # Base stop loss: 1.5% below the 150-day MA
+    base_stop = ma150 * 0.985
+
+    # Subtract 0.5 ATR as buffer to avoid noise triggers
+    # This gives room for normal volatility
+    atr_buffer = atr * 0.5
+    stop_loss = base_stop - atr_buffer
+
+    return stop_loss
 
 def get_stock_data(ticker, days=400):
     end_date = datetime.now()
@@ -392,42 +447,70 @@ def get_stock_data(ticker, days=400):
     df['ATR'] = calculate_atr(df, period=14)
     return df, stock.info
 
-def get_stock_summary(ticker):
+def get_stock_summary(input_ticker):
+    """Get summary data for a single ticker or company name"""
     try:
+        # Resolve company name to ticker if needed
+        ticker = resolve_ticker(input_ticker)
+
         df, info = get_stock_data(ticker)
         if df is None or df.empty:
             return None
+
         current_price = df['Close'].iloc[-1]
         ma150 = df['MA150'].iloc[-1]
         atr = df['ATR'].iloc[-1]
+        stop_loss = calculate_stop_loss(ma150, atr)
+
         if pd.notna(ma150) and ma150 != 0:
             gap_pct = ((current_price - ma150) / ma150) * 100
         else:
             gap_pct = None
+
         return {
             'Ticker': ticker,
             'Current Price': current_price,
             '150-Day MA': ma150,
             'Gap %': gap_pct,
-            'ATR (14)': atr
+            'ATR (14)': atr,
+            'Stop Loss': stop_loss
         }
     except Exception as e:
         return None
 
 def extract_tickers_from_text(text):
+    """Extract tickers and company names from text"""
     common_words = {'A', 'I', 'AM', 'AN', 'AS', 'AT', 'BE', 'BY', 'DO', 'GO', 'HE', 'IF',
                    'IN', 'IS', 'IT', 'ME', 'MY', 'NO', 'OF', 'OK', 'ON', 'OR', 'SO', 'TO',
                    'UP', 'US', 'WE', 'THE', 'AND', 'FOR', 'ARE', 'BUT', 'NOT', 'YOU', 'ALL',
-                   'CAN', 'HAD', 'HER', 'WAS', 'ONE', 'OUR', 'OUT', 'PDF', 'USD', 'EUR'}
+                   'CAN', 'HAD', 'HER', 'WAS', 'ONE', 'OUR', 'OUT', 'PDF', 'USD', 'EUR',
+                   'INC', 'CORP', 'LTD', 'LLC', 'CO', 'COMPANY'}
+
+    # Find potential tickers (1-5 uppercase letters)
     potential_tickers = re.findall(r'\b[A-Z]{1,5}\b', text.upper())
-    tickers = [t for t in potential_tickers if t not in common_words]
+
+    # Also find company names from our mapping
+    found_items = []
+    text_upper = text.upper()
+
+    for company in COMPANY_TO_TICKER.keys():
+        if company in text_upper:
+            found_items.append(COMPANY_TO_TICKER[company])
+
+    # Add tickers that aren't common words
+    for t in potential_tickers:
+        if t not in common_words and t not in found_items:
+            found_items.append(t)
+
+    # Remove duplicates while preserving order
     seen = set()
-    unique_tickers = []
-    for t in tickers:
+    unique_items = []
+    for t in found_items:
         if t not in seen:
             seen.add(t)
-            unique_tickers.append(t)
-    return unique_tickers
+            unique_items.append(t)
+
+    return unique_items
 
 def read_excel_tickers(file):
     try:
@@ -562,6 +645,24 @@ def create_chart(df, ticker):
 
     return fig
 
+def create_excel_download(df):
+    """Create Excel file for download"""
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Portfolio Analysis')
+
+        # Auto-adjust column widths
+        worksheet = writer.sheets['Portfolio Analysis']
+        for idx, col in enumerate(df.columns):
+            max_length = max(
+                df[col].astype(str).map(len).max(),
+                len(col)
+            ) + 2
+            worksheet.column_dimensions[chr(65 + idx)].width = max_length
+
+    output.seek(0)
+    return output
+
 # ============ MAIN APP ============
 
 st.markdown('<h1 class="main-title">Stock <span>Analyzer</span> Pro</h1>', unsafe_allow_html=True)
@@ -572,26 +673,28 @@ tab1, tab2 = st.tabs(["📊 Single Stock", "📁 Portfolio"])
 with tab1:
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        ticker = st.text_input(
+        ticker_input = st.text_input(
             "",
-            placeholder="AAPL",
+            placeholder="AAPL or Apple",
             key="single_ticker",
             label_visibility="collapsed"
-        ).upper().strip()
+        ).strip()
 
-    if ticker:
-        with st.spinner(f"Loading {ticker}..."):
+    if ticker_input:
+        with st.spinner(f"Loading {ticker_input}..."):
+            ticker = resolve_ticker(ticker_input)
             df, info = get_stock_data(ticker)
 
         if df is not None and not df.empty:
             current_price = df['Close'].iloc[-1]
             ma150 = df['MA150'].iloc[-1]
             atr = df['ATR'].iloc[-1]
+            stop_loss = calculate_stop_loss(ma150, atr)
 
             company_name = info.get('longName', ticker) if info else ticker
             st.markdown(f'<div class="company-name">{company_name}</div>', unsafe_allow_html=True)
 
-            col1, col2, col3 = st.columns(3)
+            col1, col2, col3, col4 = st.columns(4)
 
             with col1:
                 price_change = ((current_price - df['Close'].iloc[-2]) / df['Close'].iloc[-2]) * 100
@@ -628,6 +731,17 @@ with tab1:
                 </div>
                 """, unsafe_allow_html=True)
 
+            with col4:
+                if stop_loss:
+                    sl_pct = ((stop_loss - current_price) / current_price) * 100
+                    st.markdown(f"""
+                    <div class="metric-card" style="border-top: 5px solid #ef4444;">
+                        <div class="metric-label">Stop Loss</div>
+                        <div class="metric-value" style="color: #ef4444;">${stop_loss:.2f}</div>
+                        <div class="metric-change" style="background: #fee2e2; color: #dc2626;">{sl_pct:.1f}% from price</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
             st.markdown("<br>", unsafe_allow_html=True)
 
             fig = create_chart(df, ticker)
@@ -647,10 +761,10 @@ with tab1:
                     avg_vol = info.get('averageVolume') if info else None
                     st.metric("Avg Volume", f"{avg_vol:,.0f}" if avg_vol else "N/A")
         else:
-            st.error(f"❌ Could not find data for '{ticker}'. Please check the symbol.")
+            st.error(f"❌ Could not find data for '{ticker_input}'. Please check the symbol or company name.")
     else:
         st.markdown("<br>", unsafe_allow_html=True)
-        st.info("👆 Enter a stock ticker symbol above to get started")
+        st.info("👆 Enter a stock ticker or company name above to get started")
 
         st.markdown('<div class="section-header">Popular Tickers</div>', unsafe_allow_html=True)
         cols = st.columns(5)
@@ -661,7 +775,7 @@ with tab1:
 
 with tab2:
     st.markdown('<div class="section-header">📁 Upload Your Portfolio</div>', unsafe_allow_html=True)
-    st.markdown("Upload a file with your stock tickers to analyze your entire portfolio")
+    st.markdown("Upload a file with your stock tickers or company names to analyze your entire portfolio")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -692,13 +806,13 @@ with tab2:
             edited_tickers = st.text_area(
                 "Edit tickers if needed",
                 value=", ".join(tickers),
-                help="Remove false positives or add missing tickers"
+                help="Remove false positives or add missing tickers/company names"
             )
 
             if ',' in edited_tickers:
-                final_tickers = [t.strip().upper() for t in edited_tickers.split(',') if t.strip()]
+                final_tickers = [t.strip() for t in edited_tickers.split(',') if t.strip()]
             else:
-                final_tickers = [t.strip().upper() for t in edited_tickers.split('\n') if t.strip()]
+                final_tickers = [t.strip() for t in edited_tickers.split('\n') if t.strip()]
 
             st.markdown("<br>", unsafe_allow_html=True)
 
@@ -735,6 +849,7 @@ with tab2:
                         df_display['Current Price'] = df_display['Current Price'].apply(lambda x: f"${x:.2f}" if pd.notna(x) else "N/A")
                         df_display['150-Day MA'] = df_display['150-Day MA'].apply(lambda x: f"${x:.2f}" if pd.notna(x) else "N/A")
                         df_display['ATR (14)'] = df_display['ATR (14)'].apply(lambda x: f"${x:.2f}" if pd.notna(x) else "N/A")
+                        df_display['Stop Loss'] = df_display['Stop Loss'].apply(lambda x: f"${x:.2f}" if pd.notna(x) else "N/A")
 
                         def color_gap(val):
                             if val == "N/A":
@@ -758,7 +873,8 @@ with tab2:
                                 "Current Price": st.column_config.TextColumn("Price", width="medium"),
                                 "150-Day MA": st.column_config.TextColumn("150-MA", width="medium"),
                                 "Gap %": st.column_config.TextColumn("Gap %", width="medium"),
-                                "ATR (14)": st.column_config.TextColumn("ATR", width="medium"),
+                                "ATR (14)": st.column_config.TextColumn("ATR", width="small"),
+                                "Stop Loss": st.column_config.TextColumn("Stop Loss", width="medium"),
                             }
                         )
 
@@ -797,12 +913,13 @@ with tab2:
 
                         st.markdown("<br>", unsafe_allow_html=True)
 
-                        csv = df_results.to_csv(index=False)
+                        # Excel download
+                        excel_data = create_excel_download(df_results)
                         st.download_button(
-                            label="📥 Download CSV",
-                            data=csv,
-                            file_name="portfolio_analysis.csv",
-                            mime="text/csv",
+                            label="📥 Download Excel",
+                            data=excel_data,
+                            file_name="portfolio_analysis.xlsx",
+                            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                             use_container_width=True
                         )
                     else:
@@ -822,6 +939,6 @@ with tab2:
 
 st.markdown("""
 <div class="footer">
-    Data provided by Yahoo Finance • ATR = Average True Range (14-day)
+    Data provided by Yahoo Finance • ATR = Average True Range (14-day) • Stop Loss = 1.5% below 150-MA minus 0.5 ATR buffer
 </div>
 """, unsafe_allow_html=True)
