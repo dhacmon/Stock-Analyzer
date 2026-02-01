@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(/Users/doron-work-mac/Library/Python/3.11/bin/streamlit run:*)",
+      "Bash(pip uninstall:*)",
+      "Bash(pkill:*)"
+    ]
+  }
+}
